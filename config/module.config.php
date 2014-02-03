@@ -231,7 +231,7 @@ return array(
          * Définit l'identity provider DoctrineEntity , fonctionne quand l'identity
          * d'authentification est une entité
          */
-        'identity_provider'     => 'BjyAuthorize\Provider\Identity\AuthenticationDoctrineEntity',
+        'identity_provider'     => 'BjyAuthorize\Provider\Identity\AuthenticationIdentityProvider',
 
         /**
          * Fournit une liste de rôles possibles. 
@@ -239,11 +239,12 @@ return array(
         'role_providers' => array(
 
             /**
-             * Utilise le role provider DoctrineEntity
+             * Utilise le role provider pour utiliser les entités Doctrine
              */
-            'BjyAuthorize\Provider\Role\DoctrineEntity' => array(
+            'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
+                'object_manager'    => 'doctrine.entitymanager.orm_default',
                 'role_entity_class' => 'DzUser\Entity\Role',
-            ),
+             ),
         ),
     ),
 );
