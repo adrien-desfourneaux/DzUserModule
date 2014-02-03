@@ -1,0 +1,8 @@
+# Configuration de la suite de tests Codeception
+
+# Suite de tests pour les tests unitaires.
+# LANCER LA COMMANDE `build` APRES L'AJOUT/LA SUPPRESSION DE MODULES.
+
+class_name: CodeGuy
+modules:
+    enabled: [CodeHelper]

@@ -1,0 +1,11 @@
+# Configuration de la suite de tests Codeception
+
+# Suite de tests pour les tests fonctionnels (tests d'intégration)
+# Emule les requêtes web et les fait traiter par l'application.
+# (tip: mieux utilisé avec des frameworks).
+
+# LANCER LA COMMANDE `build` APRES L'AJOUT/LA SUPPRESSION DE MODULES.
+
+class_name: TestGuy
+modules:
+    enabled: [Filesystem, TestHelper]

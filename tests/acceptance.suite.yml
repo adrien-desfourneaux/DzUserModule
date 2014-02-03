@@ -1,0 +1,21 @@
+# Configuration pour la suite de tests Codeception
+
+# Suite de tests d'acceptation
+# Effectue des tests dans un navigateur en utilisant
+# des outils similaires à Selenium
+# powered by Mink (http://mink.behat.org).
+# (tip: c'est ce que le client va voir).
+# (tip: testez vos script javascript et ajax avec l'un des drivers Mink).
+
+# LANCER LA COMMANDE `build` APRES L'AJOUT/LA SUPPRESSION DE MODULES.
+
+class_name: WebGuy
+modules:
+    enabled:
+        - Db
+        - WebDriver
+    config:
+        WebDriver:
+            url: 'http://192.168.56.101/dzuser.test.php'
+            browser: firefox
+            host: 192.168.56.1

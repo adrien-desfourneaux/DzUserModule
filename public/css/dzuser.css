@@ -1,0 +1,41 @@
+.profile-widget {
+	line-height: 25px;
+}
+
+.profile-widget .gravatar {
+	float: left;
+	height: 40px;
+	margin-right: 5px;
+}
+
+.profile-widget .gravatar img {
+	height: 40px;
+}
+
+.profile-widget .logged-msg {
+	font-size: small;
+	margin: 0;
+	padding: 0;
+}
+
+.profile-widget .action {
+	font-size: small;
+	float: left;
+}
+
+.login-widget dt, .login-widget dd {
+	float: left;
+	font-size: small;
+}
+
+.login-widget label {
+	display: block;
+}
+
+.login-widget input {
+	width: 100px;
+}
+
+.login-widget dd {
+	margin: 0 5px;
+}
