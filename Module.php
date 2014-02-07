@@ -18,6 +18,7 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
 /**
@@ -33,6 +34,7 @@ class Module implements
     BootstrapListenerInterface,
     AutoloaderProviderInterface,
     ConfigProviderInterface,
+    ViewHelperProviderInterface,
     ServiceProviderInterface
 {
     /**
