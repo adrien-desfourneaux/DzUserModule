@@ -7,6 +7,7 @@
 use \Codeception\Maybe;
 use Codeception\Module\Db;
 use Codeception\Module\WebDriver;
+use Codeception\Module\WebHelper;
 
 /**
  * Inherited methods
@@ -2887,6 +2888,72 @@ class WebGuy extends \Codeception\AbstractGuy
      */
     public function appendField($field, $value) {
         $this->scenario->addStep(new \Codeception\Step\Action('appendField', func_get_args()));
+        if ($this->scenario->running()) {
+            $result = $this->scenario->runStep();
+            return new Maybe($result);
+        }
+        return new Maybe();
+    }
+
+ 
+    /**
+     * This method is generated.
+     * Documentation taken from corresponding module.
+     * ----------------------------------------------
+     *
+     * Insère les rôles utilisateurs par défaut
+     * dans la base de données
+     *
+     * @return void
+     * @see Codeception\Module\WebHelper::haveDefaultUserRolesInDatabase()
+     * @return \Codeception\Maybe
+     */
+    public function haveDefaultUserRolesInDatabase() {
+        $this->scenario->addStep(new \Codeception\Step\Action('haveDefaultUserRolesInDatabase', func_get_args()));
+        if ($this->scenario->running()) {
+            $result = $this->scenario->runStep();
+            return new Maybe($result);
+        }
+        return new Maybe();
+    }
+
+ 
+    /**
+     * This method is generated.
+     * Documentation taken from corresponding module.
+     * ----------------------------------------------
+     *
+     * Insère les utilisateurs par défaut
+     * dans la base de données.
+     *
+     * @return void
+     * @see Codeception\Module\WebHelper::haveDefaultUsersInDatabase()
+     * @return \Codeception\Maybe
+     */
+    public function haveDefaultUsersInDatabase() {
+        $this->scenario->addStep(new \Codeception\Step\Action('haveDefaultUsersInDatabase', func_get_args()));
+        if ($this->scenario->running()) {
+            $result = $this->scenario->runStep();
+            return new Maybe($result);
+        }
+        return new Maybe();
+    }
+
+ 
+    /**
+     * This method is generated.
+     * Documentation taken from corresponding module.
+     * ----------------------------------------------
+     *
+     * Définit dans la base de données
+     * les rôles par défaut pour les utilisateur.
+     *
+     * @return void
+     * @see Codeception\Module\WebHelper::haveDefaultUserRoleLinkersInDatabase()
+     * @return \Codeception\Maybe
+     */
+    public function haveDefaultUserRoleLinkersInDatabase() {
+        $this->scenario->addStep(new \Codeception\Step\Action('haveDefaultUserRoleLinkersInDatabase', func_get_args()));
         if ($this->scenario->running()) {
             $result = $this->scenario->runStep();
             return new Maybe($result);
