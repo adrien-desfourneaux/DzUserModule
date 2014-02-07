@@ -30,9 +30,6 @@ return array(
         // BjyAuthorize
         'BjyAuthorize',
 
-        // Gestion des assets
-        'AssetManager',
-
         // Mon module
         'DzUser'
     ),

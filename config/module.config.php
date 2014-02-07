@@ -39,14 +39,6 @@ return array(
             'dzuser' => __DIR__ . '/../view',
         ),
     ),
-    // RWOverdijk/AssetManager
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'paths' => array(
-                __DIR__ . '/../public',
-            ),
-        ),
-    ),
     'controllers' => array(
         'invokables' => array(
             'dzuser' => 'DzUser\Controller\UserController',
@@ -83,7 +75,7 @@ return array(
                     'route'    => '/user/module[/]',
                     'defaults' => array(
                         'controller' => 'dzuser',
-                        'action'     => 'index',
+                        'action'     => 'module',
                     ),
                 ),
 
