@@ -36,7 +36,7 @@ class UserController extends \ZfcUser\Controller\UserController
      *
      * @return ViewModel
      */
-    public function indexAction()
+    public function moduleAction()
     {
         return new ViewModel();
     }
