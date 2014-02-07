@@ -17,11 +17,11 @@
 ?>
 
 <div class="profile-widget">
-	<div class="gravatar">
-		<?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?>
-	</div>
+    <div class="gravatar">
+        <?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?>
+    </div>
 
-	<h3 class="logged-msg"><?php echo $this->zfcUserDisplayName() ?></h3>
+    <h3 class="logged-msg"><?php echo $this->zfcUserDisplayName() ?></h3>
 
-	<a class="action" href="<?php echo $this->url('zfcuser/logout') ?>">Déconnexion</a>
+    <a class="action" href="<?php echo $this->url('zfcuser/logout') ?>">Déconnexion</a>
 </div>
