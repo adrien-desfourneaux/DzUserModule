@@ -15,6 +15,8 @@
 
 namespace Codeception\Module;
 
+use DzUser\Helper\DbDumper;
+
 /**
  * Classe helper pour les tests d'acceptation.
  * Fonctions personnalisés pour le WebGuy.
@@ -37,14 +39,8 @@ class WebHelper extends \Codeception\Module
     public function haveDefaultUserRolesInDatabase()
     {
         $dbh = $this->getModule('Db')->dbh;
-        $sql = file_get_contents(__DIR__ . '/../../data/dzuser.dump.sqlite.sql');
-
-        preg_match_all("/INSERT INTO '?user_role'? .*?;/s", $sql, $matches);
-        $inserts = $matches[0];
-
-        foreach ($inserts as $insert) {
-            $dbh->exec($insert);
-        }
+        $dbDumper = new DbDumper($dbh);
+        $dbDumper->insertUserRoles();
     }
 
     /**
@@ -56,14 +52,8 @@ class WebHelper extends \Codeception\Module
     public function haveDefaultUsersInDatabase()
     {
         $dbh = $this->getModule('Db')->dbh;
-        $sql = file_get_contents(__DIR__ . '/../../data/dzuser.dump.sqlite.sql');
-
-        preg_match_all("/INSERT INTO '?user'? .*?;/s", $sql, $matches);
-        $inserts = $matches[0];
-
-        foreach ($inserts as $insert) {
-            $dbh->exec($insert);
-        }
+        $dbDumper = new DbDumper($dbh);
+        $dbDumper->insertUsers();
     }
 
     /**
@@ -75,13 +65,7 @@ class WebHelper extends \Codeception\Module
     public function haveDefaultUserRoleLinkersInDatabase()
     {
         $dbh = $this->getModule('Db')->dbh;
-        $sql = file_get_contents(__DIR__ . '/../../data/dzuser.dump.sqlite.sql');
-
-        preg_match_all("/INSERT INTO '?user_role_linker'? .*?;/s", $sql, $matches);
-        $inserts = $matches[0];
-
-        foreach ($inserts as $insert) {
-            $dbh->exec($insert);
-        }
+        $dbDumper = new DbDumper($dbh);
+        $dbDumper->insertUserRoleLinkers();
     }
 }
