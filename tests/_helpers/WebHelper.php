@@ -15,7 +15,8 @@
 
 namespace Codeception\Module;
 
-use DzUser\Helper\DbDumper;
+use DzUser\Test\Helper\DbDumper;
+use DzUser\Test\Helper\WebHelperDbInterface;
 
 /**
  * Classe helper pour les tests d'acceptation.
@@ -28,7 +29,7 @@ use DzUser\Helper\DbDumper;
  * @license    http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2
  * @link       https://github.com/dieze/DzUser/blob/master/tests/_helpers/WebHelper.php
  */
-class WebHelper extends \Codeception\Module
+class WebHelper extends \Codeception\Module implements WebHelperDbInterface
 {
     /**
      * Insère les rôles utilisateurs par défaut
