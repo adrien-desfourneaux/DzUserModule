@@ -2575,12 +2575,12 @@ class WebGuy extends \Codeception\AbstractGuy
      *
      * If the window has no name, the only way to access it is via the `executeInSelenium()` method like so:
      *
-     * ```
+     * ``` php
      * <?php
      * $I->executeInSelenium(function (\Webdriver $webdriver) {
-     *      $handles=$webDriver->getWindowHandles();
+     *      $handles=$webdriver->getWindowHandles();
      *      $last_window = end($handles);
-     *      $webDriver->switchTo()->window($name);
+     *      $webdriver->switchTo()->window($last_window);
      * });
      * ?>
      * ```
@@ -2954,6 +2954,28 @@ class WebGuy extends \Codeception\AbstractGuy
      */
     public function haveDefaultUserRoleLinkersInDatabase() {
         $this->scenario->addStep(new \Codeception\Step\Action('haveDefaultUserRoleLinkersInDatabase', func_get_args()));
+        if ($this->scenario->running()) {
+            $result = $this->scenario->runStep();
+            return new Maybe($result);
+        }
+        return new Maybe();
+    }
+
+ 
+    /**
+     * This method is generated.
+     * Documentation taken from corresponding module.
+     * ----------------------------------------------
+     *
+     * Définit tout par défaut
+     * dans la base de données
+     *
+     * @return void
+     * @see Codeception\Module\WebHelper::haveAllDefaultsInDatabase()
+     * @return \Codeception\Maybe
+     */
+    public function haveAllDefaultsInDatabase() {
+        $this->scenario->addStep(new \Codeception\Step\Action('haveAllDefaultsInDatabase', func_get_args()));
         if ($this->scenario->running()) {
             $result = $this->scenario->runStep();
             return new Maybe($result);

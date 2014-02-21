@@ -27,57 +27,57 @@ Il y a quelques prérequis pour pouvoir lancer les tests d'acceptation.
 
 Créer un fichier **zf2\_app/public/dzuser.test.php** qui contient :
 
-	<?php
-	/**
-	 * This makes our life easier when dealing with paths. Everything is relative
-	 * to the application root now.
-	 */
-	chdir(dirname(__DIR__));
+    <?php
+    /**
+     * This makes our life easier when dealing with paths. Everything is relative
+     * to the application root now.
+     */
+    chdir(dirname(__DIR__));
 
-	// Decline static file requests back to the PHP built-in webserver
-	if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
-    	return false;
-	}
+    // Decline static file requests back to the PHP built-in webserver
+    if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
+        return false;
+    }
 
-	// Setup autoloading
-	require 'init_autoloader.php';
+    // Setup autoloading
+    require 'init_autoloader.php';
 
-	// Run the application!
-	Zend\Mvc\Application::init(require 'module/DzUser/config/application.config.php')->run();
-	
+    // Run the application!
+    Zend\Mvc\Application::init(require 'module/DzUser/config/application.config.php')->run();
+    
 La partie importante se situe sur la dernière ligne, là où on lance l'application en utilisant le fichier application.config.php du module.
 
 Editer le fichier **DzUser/config/acceptance.suite.yml** :
 
-	class_name: WebGuy
-	modules:
-    	enabled:
-	        - Db
-	        - WebDriver
-	    config:
-    	    WebDriver:
-        	    url: 'http://0.0.0.0/dzuser.test.php'
-	            browser: firefox
-	            host: 0.0.0.0
+    class_name: WebGuy
+    modules:
+        enabled:
+            - Db
+            - WebDriver
+        config:
+            WebDriver:
+                url: 'http://0.0.0.0/dzuser.test.php'
+                browser: firefox
+                host: 0.0.0.0
 
 **Dans "url", définir l'url à charger pour lancer l'application.**
 **Dans "host", définir l'ip de la machine où est lancé le serveur Selenium2 (voir ci-dessous)**
 
 Aller dans le répertoire du module et lancer le serveur Selenium2 :
-	
-	java -jar tests/selenium-server-standalone-2.39.0.jar
+    
+    java -jar tests/selenium-server-standalone-2.39.0.jar
 
 La navigateur web firefox doit être installé sur votre machine.
 
 Vous pouvez maintenant lancer les tests d'acceptation.
 Pour lancer un test d'acceptation (ShowModuleInformationCept par exemple), aller dans le répertoire du module et lancer la commande :
 
-	../../vendor/bin/codecept run tests/acceptance/ShowModuleInformationsCept.php
-	
+    ../../vendor/bin/codecept run tests/acceptance/ShowModuleInformationsCept.php
+    
 Vous pouvez également lancer tous les tests d'acceptation avec la commande :
 
-	../../vendor/bin/codecept run
-	
+    ../../vendor/bin/codecept run
+    
 Il est aussi possible d'utiliser le script shell qui va lancer tous les tests d'acceptation :
 
-	script/run_tests.sh cept
+    script/run_tests.sh cept

@@ -17,9 +17,9 @@
 namespace DzUser\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
-use ZfcUser\Form\Login as LoginForm;
 use Zend\View\Model\ViewModel;
-use Zend\Authentication\AuthenticationService;
+use ZfcUser\Controller\UserController;
+use Zend\Http\Response;
 
 /**
  * Widget d'affichage de l'identité de l'utilisateur
@@ -35,10 +35,10 @@ use Zend\Authentication\AuthenticationService;
 class DzUserIdentityWidget extends AbstractHelper
 {
     /**
-     * Formulaire de connexion
-     * @var LoginForm
+     * Controleur d'utilisateur
+     * @var UserController
      */
-    protected $loginForm;
+    protected $userController;
 
     /**
      * Template de connexion
@@ -53,12 +53,6 @@ class DzUserIdentityWidget extends AbstractHelper
     protected $profileViewTemplate;
 
     /**
-     * Service d'authentification
-     * @var AuthenticationService
-     */
-    protected $authService;
-
-    /**
      * __invoke
      *
      * @param array $options Tableau d'options
@@ -69,29 +63,84 @@ class DzUserIdentityWidget extends AbstractHelper
      */
     public function __invoke($options = array())
     {
+        $userController = $this->getUserController();
+
         if (array_key_exists('render', $options)) {
             $render = $options['render'];
         } else {
             $render = true;
         }
-        if (array_key_exists('redirect', $options)) {
-            $redirect = $options['redirect'];
+        
+        if (array_key_exists('redirectLoginFailure', $options)) {
+            $redirectLoginFailure = $options['redirectLoginFailure'];
         } else {
-            $redirect = false;
+            $redirectLoginFailure = false;
         }
 
-        if ($this->getAuthService()->hasIdentity()) {
-            $viewModel = new ViewModel();
-            $viewModel->setTemplate($this->profileViewTemplate);
+        if (array_key_exists('redirectLoginSuccess', $options)) {
+            $redirectLoginSuccess = $options['redirectLoginSuccess'];
         } else {
-            $viewModel = new ViewModel(
+            $redirectLoginSuccess = false;
+        }
+
+        if (array_key_exists('redirectLogout', $options)) {
+            $redirectLogout = $options['redirectLogout'];
+        } else {
+            $redirectLogout = false;
+        }
+
+        if (array_key_exists('hasTitle', $options)) {
+            $hasTitle = $options['hasTitle'];
+        } else {
+            // Pas de titre par défaut dans le widget
+            $hasTitle = false;
+        }
+
+        if (array_key_exists('hasRegistration', $options)) {
+            $hasRegistration = $options['hasRegistration'];
+        } else {
+            // Toujours afficher le lien de registration par défaut
+            $hasRegistration = true;
+        }
+
+        if ($userController->zfcUserAuthentication()->hasIdentity()) {
+
+            $viewModel = new ViewModel();
+            
+            $viewModel->setVariables(
                 array(
-                    'loginForm' => $this->getLoginForm(),
-                    'redirect'  => $redirect,
+                    'hasTitle' => $hasTitle,
+                    'redirectLogout' => $redirectLogout,
                 )
-            );
+            )->setTemplate($this->profileViewTemplate);
+            
+        } else {
+            
+            if ($redirectLoginSuccess) {
+                $userController->getRequest()->getQuery()->set('redirectSuccess', $redirectLoginSuccess);
+            }
+
+            if ($redirectLoginFailure) {
+                $userController->getRequest()->getQuery()->set('redirectFailure', $redirectLoginFailure);
+            }
+
+            $userController->getRequest()->getQuery()->set('hasTitle', $hasTitle);
+            $userController->getRequest()->getQuery()->set('hasRegistration', $hasRegistration);
+
+            $return = $userController->loginAction();
+
+            if (is_array($return)) {
+                $viewModel = new ViewModel($return);
+            } elseif ($return instanceof ViewModel) {
+                $viewModel = $return;
+            } elseif ($return instanceof Response) {
+                return $return;
+            }
+
             $viewModel->setTemplate($this->loginViewTemplate);
         }
+
+        $viewModel->setVariable('isWidget', true);
         
         if ($render) {
             return $this->getView()->render($viewModel);
@@ -101,26 +150,26 @@ class DzUserIdentityWidget extends AbstractHelper
     }
 
     /**
-     * Obtient le formulaire de Connexion
-     *
-     * @return LoginForm
-     */
-    public function getLoginForm()
-    {
-        return $this->loginForm;
-    }
-
-    /**
-     * Définit le formulaire de connexion
-     *
-     * @param LoginForm $loginForm Nouveau formulaire de connexion
+     * Définit le contrôleur d'utilisateurs
+     * 
+     * @param UserController $userController Contrôleur d'utilisateurs
      *
      * @return DzUserIdentityWidget
      */
-    public function setLoginForm(LoginForm $loginForm)
+    public function setUserController($userController)
     {
-        $this->loginForm = $loginForm;
+        $this->userController = $userController;
         return $this;
+    }
+
+    /**
+     * Obtient le contrôleur d'utilisateurs
+     *
+     * @return UserController
+     */
+    public function getUserController()
+    {
+        return $this->userController;
     }
 
     /**
@@ -166,29 +215,6 @@ class DzUserIdentityWidget extends AbstractHelper
     public function setProfileViewTemplate($viewTemplate)
     {
         $this->profileViewTemplate = $viewTemplate;
-        return $this;
-    }
-
-    /**
-     * Obtient le service d'authentification
-     *
-     * @return AuthenticationService
-     */
-    public function getAuthService()
-    {
-        return $this->authService;
-    }
-
-    /**
-     * Définit le service d'authentification
-     *
-     * @param AuthenticationService $authService Nouveau service d'authentification
-     *
-     * @return DzUserIdentityWidget
-     */
-    public function setAuthService($authService)
-    {
-        $this->authService = $authService;
         return $this;
     }
 }

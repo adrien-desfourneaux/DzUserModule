@@ -58,7 +58,7 @@ class Module implements
                 $form = $event->getTarget();
 
                 $form->get('credential')->setLabel('Mot de passe');
-                $form->get('submit')->setLabel('Connexion');
+                $form->get('submit')->setLabel('Authentification');
             }
         );
 
@@ -124,9 +124,9 @@ class Module implements
     public function getAutoloaderConfig()
     {
         return array(
-            /*'Zend\Loader\ClassMapAutoloader' => array(
+            'Zend\Loader\ClassMapAutoloader' => array(
                 __DIR__ . '/autoload_classmap.php',
-            ),*/
+            ),
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
@@ -161,13 +161,22 @@ class Module implements
             'factories' => array(
                 'dzUserIdentityWidget' => function ($serviceManager) {
                     $locator = $serviceManager->getServiceLocator();
-                    $viewHelper = new View\Helper\dzUserIdentityWidget;
-                    $viewHelper->setLoginForm($locator->get('zfcuser_login_form'));
-                    $viewHelper->setLoginViewTemplate('dz-user/user/loginWidget.phtml');
-                    $viewHelper->setProfileViewTemplate('dz-user/user/profileWidget.phtml');
-                    $viewHelper->setAuthService($locator->get('zfcuser_auth_service'));
+
+                    $userController = $locator->get('controllerloader')->get('dzuser');
+                    $userController->setEvent($locator->get('application')->getMvcEvent());
+
+                    $viewHelper = new View\Helper\DzUserIdentityWidget;
+                    $viewHelper->setLoginViewTemplate($locator->get('dzuser_module_options')->getUserIdentityWidgetLoginViewTemplate());
+                    $viewHelper->setProfileViewTemplate($locator->get('dzuser_module_options')->getUserIdentityWidgetProfileViewTemplate());
+                    $viewHelper->setUserController($userController);
                     return $viewHelper;
-                }
+                },
+
+                // Configure FormElementErrors pour utiliser les classes bootstrap
+                /*'dzUserFormElementErrors' => function ($serviceManager) {
+                    $formElementErrors = $serviceManager->get('formelementerrors');
+                    $formElementErrors->
+                }*/
             ),
         );
     }
@@ -183,6 +192,12 @@ class Module implements
     public function getServiceConfig()
     {
         return array(
+            'alias' => array(
+                // Ne pas utiliser les options de zfcuser,
+                // utiliser celles de dzuser à la place
+                'zfcuser_module_options' => 'dzuser_module_options',
+            ),
+
             'invokables' => array(
                 'dzuser_user_service' => 'DzUser\Service\User',
                 'dzuser_user_hydrator' => 'Zend\Stdlib\Hydrator\ClassMethods'

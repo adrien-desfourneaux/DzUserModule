@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Vue pour le Widget DzUserIdentityWidget pour l'utilisateur connecté
+ * Vue pour l'action UserController::profileAction()
  * Affiche le profil de l'utilisateur connecté
  *
  * PHP version 5
@@ -11,17 +11,39 @@
  * @subpackage View
  * @author     Adrien Desfourneaux (aka Dieze) <dieze51@gmail.com>
  * @license    http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2
- * @link       https://github.com/dieze/DzUser/blob/master/view/dz-user/user/profileWidget.phtml
+ * @link       https://github.com/dieze/DzUser/blob/master/view/dz-user/user/profile.phtml
  */
 
 ?>
 
+<?php
+if (isset($this->isWidget) && $this->isWidget) {
+    ?>
 <div class="profile-widget">
+    <?php
+}
+?>
+
+<?php
+if ($this->hasTitle) {
+    ?>
+<h1>Profil</h1>
+    <?php
+}
+?>
     <div class="gravatar">
         <?php echo $this->gravatar($this->zfcUserIdentity()->getEmail()) ?>
     </div>
 
     <h3 class="logged-msg"><?php echo $this->zfcUserDisplayName() ?></h3>
 
-    <a class="action" href="<?php echo $this->url('zfcuser/logout') ?>">Déconnexion</a>
+    <a class="action" href="<?php echo $this->url('dzuser/logout'); echo ($this->redirectLogout) ? '?redirect=' . $this->redirectLogout : ''; ?>">Déconnexion</a>
+
+<?php
+if (isset($this->isWidget) && $this->isWidget) {
+    ?>
 </div>
+    <?php
+}
+?>
+

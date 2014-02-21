@@ -1,0 +1,37 @@
+<?php
+/**
+ * Configuration de DzUser
+ *
+ * Si vous avez un répertoire ./config/autoload pour votre projet, vous pouvez
+ * y mettre ce fichier et changer les valeurs selon vos besoins.
+ */
+$settings = array(
+    /**
+     * Template de connexion pour le widget identity dzUserIdentityWidget
+     *
+     * Valeur par défaut: 'dz-user/user/login.phtml'
+     * Valeurs acceptées: chaine de caractères chemin vers un script de vue.
+     */
+    // 'user_identity_widget_login_view_template' => 'dz-user/user/login.phtml'
+
+    /**
+     * Template de profil utilisateur connecté pour le
+     * widget identity dzUserIdentityWidget
+     *
+     * Valeur par défaut: 'dz-user/user/profile.phtml'
+     * Valeurs acceptées: chaine de caractères chemin vers un script de vue.
+     */
+    // 'user_identity_widget_profile_view_template' => 'dz-user/user/profile.phtml'
+);
+
+/**
+ * You do not need to edit below this line
+ */
+return array(
+    'zfcuser' => $settings,
+    'service_manager' => array(
+        'aliases' => array(
+            'zfcuser_zend_db_adapter' => (isset($settings['zend_db_adapter'])) ? $settings['zend_db_adapter']: 'Zend\Db\Adapter\Adapter',
+        ),
+    ),
+);

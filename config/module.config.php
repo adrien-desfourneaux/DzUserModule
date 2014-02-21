@@ -46,41 +46,113 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-
+            
             // Profil de l'utilisateur connecté
             // zfcuser
+            // On change la route pour éviter les collisions
+            // avec les routes de dzuser
+            'zfcuser' => array(
+                'options' => array(
+                    'route' => '/zfc-user/user',
+                ),
 
-            // Connexion utilisateur
-            // zfcuser/login
+                // Connexion utilisateur
+                // zfcuser/login
 
-            // Authentification
-            // zfcuser/authenticate
+                // Authentification
+                // zfcuser/authenticate
 
-            // Déconnexion utilisateur
-            // zfcuser/logout
+                // Déconnexion utilisateur
+                // zfcuser/logout
 
-            // Enregistrement utilisateur
-            // zfcuser/register
+                // Enregistrement utilisateur
+                // zfcuser/register
 
-            // Changement de mot de passe
-            // zfcuser/changepassword
+                // Changement de mot de passe
+                // zfcuser/changepassword
 
-            // Changement d'email
-            // zfcuser/changeemail
+                // Changement d'email
+                // zfcuser/changeemail
+            ),
 
             // Information du module
             'dzuser' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route'    => '/user/module[/]',
+                    'route'    => '/user[/]',
                     'defaults' => array(
                         'controller' => 'dzuser',
-                        'action'     => 'module',
+                        'action'     => 'index',
                     ),
                 ),
 
                 'may_terminate' => true,
                 'child_routes' => array(
+
+                    // Connexion utilisateur
+                    'login' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'login[/]',
+                            'defaults' => array(
+                                'controller' => 'dzuser',
+                                'action'     => 'login',
+                            ),
+                        ),
+                    ),
+
+                    // Autentification utilisateur
+                    'authenticate' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'authenticate[/]',
+                            'defaults' => array(
+                                'controller' => 'dzuser',
+                                'action'     => 'authenticate',
+                            ),
+                        ),
+                    ),
+
+                     // Déconnexion utilisateur
+                    'logout' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'logout[/]',
+                            'defaults' => array(
+                                'controller' => 'dzuser',
+                                'action'     => 'logout',
+                            ),
+                        ),
+                    ),
+
+                    'account' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'account[/]',
+                            'defaults' => array(
+                                'controller' => 'dzuser',
+                                'action' => 'account',
+                            ),
+                        ),
+                    ),
+
+                    // Visualisation de la liste des utilisateurs
+                    'list' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => 'list[/:role]',
+                            'constraints' => array(
+                                'role' => '[a-z]+',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'dzuser',
+                                'action'     => 'list',
+                                'role' => 'any',
+                            ),
+                        ),
+                    ),
+
+                   
 
                     // Suppression d'un utilisateur
                     'delete' => array(
@@ -96,20 +168,7 @@ return array(
                         ),
                     ),
 
-                    // Visualisation de la liste des utilisateurs
-                    'showall' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => 'show-all[/:role]',
-                            'constraints' => array(
-                                'role' => '[a-z]+',
-                            ),
-                            'defaults' => array(
-                                'action' => 'showall',
-                                'role' => 'any',
-                            ),
-                        ),
-                    ),
+                    
 
                     // L'administrateur se fait passer pour un chef de projet
                     'switch' => array(
@@ -167,53 +226,6 @@ return array(
          */
 
         'enable_default_entities' => false,
-    ),
-
-    // ZfcUser options
-    'zfcuser' => array(
-
-        /**
-         * Classe d'entité utilisateur
-         *
-         * Nom de la classe d'entité à utiliser. Utile pour utiliser sa propre
-         * classe d'entité au lieu de celle par défaut. La classe par défaut
-         * est ZfcUser\Entity\User. Cette classe d'entité doit implémenter
-         * ZfcUser\Entity\UserInterface
-         */
-        'user_entity_class' => 'DzUser\Entity\User',
-
-        /**
-         * Active le nom d'utilisateur
-         *
-         * Active le champ nom d'utilisateur username sur le formulaire d'inscription
-         * et autorise les utilisateur à se connecter en utilisant leur nom d'utilisateur
-         * OU leur adresse email. La valeur par défaut est false.
-         *
-         * Valeurs acceptées: booléen true ou false
-         */
-        'enable_username' => false,
-
-        /**
-         * Active le nom d'affichage
-         *
-         * Active le champ nom d'affichage dans le formulaire d'enregistrement.
-         * Le nom d'affichage est alors enregistré dans la base de données.
-         * La valeur par défaut est false
-         *
-         * Valeurs acceptées : booléen true ou false
-         */
-        'enable_display_name' => true,
-
-
-
-        /**
-         * Active l'enregistrement
-         *
-         * Autorise les utilisateurs à s'enregistrer sur le site.
-         *
-         * Valeurs acceptées: (booléen) true ou false
-         */
-        //'enable_registration' => false,
     ),
 
     // BjyAuthorize options
