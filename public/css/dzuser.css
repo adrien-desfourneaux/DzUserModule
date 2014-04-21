@@ -1,3 +1,8 @@
+
+body > .container {
+    margin-top: 50px;
+}
+
 .profile-widget {
     line-height: 25px;
 }
@@ -38,4 +43,20 @@
 
 .login-widget dd {
     margin: 0 5px;
+}
+
+.widget-examples {
+    list-style-type: none;
+}
+
+.widget-examples > li {
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid black;
+    border-radius: 0 0 5px 5px;
+    margin: 10px;
+}
+
+.widget-container {
+    padding: 10px;
 }

@@ -8,8 +8,8 @@
  * @category Config
  * @package  DzUser
  * @author   Adrien Desfourneaux (aka Dieze) <dieze51@gmail.com>
- * @license  http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2
- * @link     https://github.com/dieze/DzUser/blob/master/config/module.config.php
+ * @license  http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link     https://github.com/dieze/DzUserModule
  */
 
 /**
@@ -39,9 +39,14 @@ return array(
             'dzuser' => __DIR__ . '/../view',
         ),
     ),
+    'assets' => array(
+        'paths' => array(
+            'dzuser' => __DIR__ . '/../public',
+        ),
+    ),
     'controllers' => array(
         'invokables' => array(
-            'dzuser' => 'DzUser\Controller\UserController',
+            'dzuser' => 'DzUserModule\Controller\UserController',
         ),
     ),
     'router' => array(
@@ -125,17 +130,6 @@ return array(
                         ),
                     ),
 
-                    'account' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => 'account[/]',
-                            'defaults' => array(
-                                'controller' => 'dzuser',
-                                'action' => 'account',
-                            ),
-                        ),
-                    ),
-
                     // Visualisation de la liste des utilisateurs
                     'list' => array(
                         'type' => 'Segment',
@@ -193,11 +187,11 @@ return array(
         'driver' => array(
             'dzuser_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => __DIR__ . '/../src/DzUser/Entity'
+                'paths' => __DIR__ . '/../src/DzUserModule/Entity'
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'DzUser\Entity' => 'dzuser_entity'
+                    'DzUserModule\Entity' => 'dzuser_entity'
                 )
             )
         ),
@@ -247,7 +241,7 @@ return array(
              */
             'BjyAuthorize\Provider\Role\ObjectRepositoryProvider' => array(
                 'object_manager'    => 'doctrine.entitymanager.orm_default',
-                'role_entity_class' => 'DzUser\Entity\Role',
+                'role_entity_class' => 'DzUserModule\Entity\Role',
              ),
         ),
     ),

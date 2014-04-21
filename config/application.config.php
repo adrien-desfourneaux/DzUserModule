@@ -13,30 +13,28 @@
  * @category Config
  * @package  DzUser
  * @author   Adrien Desfourneaux (aka Dieze) <dieze51@gmail.com>
- * @license  http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2
- * @link     https://github.com/dieze/DzUser/blob/master/config/application.config.php
+ * @license  http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link     https://github.com/dieze/DzUserModule
  */
 return array(
     'modules' => array(
-        // Doctrine
+        'DzAssetModule',
         'DoctrineModule',
         'DoctrineORMModule',
-
-        // ZfcUser
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
-
-        // BjyAuthorize
         'BjyAuthorize',
-
-        // Mon module
-        'DzUser'
+        'DzMessageModule',
+        'DzViewModule',
+        'DzServiceModule',
+        'DzBaseModule',
+        'DzUserModule'
     ),
     'module_listener_options' => array(
         'module_paths' => array(
             __DIR__ . '/../../../module',
-            __DIR__ . '/../../../vendor'
+            __DIR__ . '/vendor'
         )
     ),
 );

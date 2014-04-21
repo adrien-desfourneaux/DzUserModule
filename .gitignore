@@ -3,3 +3,4 @@ doc/
 coverage
 metrics/
 *.sublime-workspace
+vendor

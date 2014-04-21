@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Lance l'application de test du module DzUser.
- * Seuls le module DzUser et ses dépendances seront chargées.
- * Cela permet le test du module DzUser seul, séparé
+ * Lance l'application de test du module DzUserModule.
+ * Seuls le module DzUserModule et ses dépendances seront chargées.
+ * Cela permet le test du module DzUserModule seul, séparé
  * du reste de l'application.
  *
  * <strong>Copier ce fichier dans le dossier public de l'application zf2</strong>
@@ -17,8 +17,8 @@
  * @category Source
  * @package  DzUser
  * @author   Adrien Desfourneaux (aka Dieze) <dieze51@gmail.com>
- * @license  http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2
- * @link     https://github.com/dieze/DzUser/blob/master/data/dzuser.test.php
+ * @license  http://www.opensource.org/licenses/mit-license.html  MIT License
+ * @link     https://github.com/dieze/DzUserModule
  */
 
 /**
@@ -41,4 +41,4 @@ if (php_sapi_name() === 'cli-server' && is_file(__DIR__ . parse_url($_SERVER['RE
 require 'init_autoloader.php';
 
 // Run the application!
-Zend\Mvc\Application::init(require 'module/DzUser/config/application.config.php')->run();
+Zend\Mvc\Application::init(require 'module/DzUserModule/config/application.config.php')->run();

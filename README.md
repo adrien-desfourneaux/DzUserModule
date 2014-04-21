@@ -1,7 +1,7 @@
 DzUser
 =========
 
-Module de management d'utilisateur pour ZF2
+Module de gestion d'utilisateurs pour ZF2 basé sur ZfcUser et compatible Doctrine.
 
 Installation
 ==========
@@ -43,11 +43,11 @@ Créer un fichier **zf2\_app/public/dzuser.test.php** qui contient :
     require 'init_autoloader.php';
 
     // Run the application!
-    Zend\Mvc\Application::init(require 'module/DzUser/config/application.config.php')->run();
+    Zend\Mvc\Application::init(require 'module/DzUserModule/config/application.config.php')->run();
     
 La partie importante se situe sur la dernière ligne, là où on lance l'application en utilisant le fichier application.config.php du module.
 
-Editer le fichier **DzUser/config/acceptance.suite.yml** :
+Editer le fichier **DzUserModule/config/acceptance.suite.yml** :
 
     class_name: WebGuy
     modules:

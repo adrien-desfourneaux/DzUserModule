@@ -2901,10 +2901,7 @@ class WebGuy extends \Codeception\AbstractGuy
      * Documentation taken from corresponding module.
      * ----------------------------------------------
      *
-     * Insère les rôles utilisateurs par défaut
-     * dans la base de données
-     *
-     * @return void
+     * {@inheritdoc}
      * @see Codeception\Module\WebHelper::haveDefaultUserRolesInDatabase()
      * @return \Codeception\Maybe
      */
@@ -2923,10 +2920,7 @@ class WebGuy extends \Codeception\AbstractGuy
      * Documentation taken from corresponding module.
      * ----------------------------------------------
      *
-     * Insère les utilisateurs par défaut
-     * dans la base de données.
-     *
-     * @return void
+     * {@inheritdoc}
      * @see Codeception\Module\WebHelper::haveDefaultUsersInDatabase()
      * @return \Codeception\Maybe
      */
@@ -2945,10 +2939,7 @@ class WebGuy extends \Codeception\AbstractGuy
      * Documentation taken from corresponding module.
      * ----------------------------------------------
      *
-     * Définit dans la base de données
-     * les rôles par défaut pour les utilisateur.
-     *
-     * @return void
+     * {@inheritdoc}
      * @see Codeception\Module\WebHelper::haveDefaultUserRoleLinkersInDatabase()
      * @return \Codeception\Maybe
      */
@@ -2967,15 +2958,12 @@ class WebGuy extends \Codeception\AbstractGuy
      * Documentation taken from corresponding module.
      * ----------------------------------------------
      *
-     * Définit tout par défaut
-     * dans la base de données
-     *
-     * @return void
-     * @see Codeception\Module\WebHelper::haveAllDefaultsInDatabase()
+     * {@inheritdoc}
+     * @see Codeception\Module\WebHelper::haveAllUserDefaultsInDatabase()
      * @return \Codeception\Maybe
      */
-    public function haveAllDefaultsInDatabase() {
-        $this->scenario->addStep(new \Codeception\Step\Action('haveAllDefaultsInDatabase', func_get_args()));
+    public function haveAllUserDefaultsInDatabase() {
+        $this->scenario->addStep(new \Codeception\Step\Action('haveAllUserDefaultsInDatabase', func_get_args()));
         if ($this->scenario->running()) {
             $result = $this->scenario->runStep();
             return new Maybe($result);

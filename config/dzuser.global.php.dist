@@ -9,19 +9,19 @@ $settings = array(
     /**
      * Template de connexion pour le widget identity dzUserIdentityWidget
      *
-     * Valeur par défaut: 'dz-user/user/login.phtml'
+     * Valeur par défaut: 'dz-user-module/user/login.phtml'
      * Valeurs acceptées: chaine de caractères chemin vers un script de vue.
      */
-    // 'user_identity_widget_login_view_template' => 'dz-user/user/login.phtml'
+    // 'user_identity_widget_login_view_template' => 'dz-user-module/user/login.phtml'
 
     /**
      * Template de profil utilisateur connecté pour le
      * widget identity dzUserIdentityWidget
      *
-     * Valeur par défaut: 'dz-user/user/profile.phtml'
+     * Valeur par défaut: 'dz-user-module/user/profile.phtml'
      * Valeurs acceptées: chaine de caractères chemin vers un script de vue.
      */
-    // 'user_identity_widget_profile_view_template' => 'dz-user/user/profile.phtml'
+    // 'user_identity_widget_profile_view_template' => 'dz-user-module/user/profile.phtml'
 );
 
 /**

@@ -1,0 +1,12 @@
+{
+    "name": "dz-user-module",
+    "version": "0.0.1",
+    "main": "css/dzuser.css",
+    "ignore": [
+        "*.php"
+    ],
+    "dependencies": {
+    	"bootstrap" : ">=3.0",
+        "jquery-ui" : "latest"
+    }
+}

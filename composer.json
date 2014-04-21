@@ -1,11 +1,16 @@
 {
-    "name": "dieze/dz-user",
-    "description": "Module de gesion utilisateur pour ZF2. Améliore ZfcUser. Compatible Doctrine2.",
+    "name": "dieze/dz-user-module",
+    "description": "Module de gestion d'utilisateurs pour ZF2, basé sur ZfcUser, compatible Doctrine",
     "type": "library",
     "keywords": [
-        "zf2"
+        "zf2",
+        "user",
+        "utilisateur",
+        "management",
+        "gestion",
+        "zfcuser"
     ],
-    "homepage": "https://github.com/dieze/DzUser",
+    "homepage": "https://github.com/dieze/DzUserModule",
     "authors": [
         {
             "name": "Desfourneaux Adrien (aka Dieze)",
@@ -13,15 +18,16 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4.0",
+        "zendframework/zend-eventmanager": "~2.1",
+        "zendframework/zend-filter": "~2.1",
+        "zendframework/zend-form": "~2.1",
         "zendframework/zend-stdlib": "~2.1",
         "zendframework/zend-loader": "~2.1",
         "zendframework/zend-mvc": "~2.1",
         "zendframework/zend-modulemanager": "~2.1",
         "zendframework/zend-servicemanager": "~2.1",
-        "zendframework/zend-view": "~2.1",
-        "zf-commons/zfc-user": "0.1.*",
-        "bjyoungblood/bjy-authorize": "1.4.*"
+        "zendframework/zend-view": "~2.1"
     },
     "require-dev": {
         "codeception/codeception": "*",
@@ -30,6 +36,7 @@
         "henrikbjorn/phpspec-code-coverage" : "dev-master",
         "phpdocumentor/phpdocumentor": "2.*",
         "squizlabs/php_codesniffer": "1.*",
+        "fabpot/php-cs-fixer": "dev-master",
         "phpmd/phpmd": "1.5.*",
         "pdepend/pdepend": "1.1.1",
         "phploc/phploc": "*",
@@ -37,10 +44,7 @@
     },
     "autoload": {
         "psr-0": {
-            "DzUser": "src/"
-        },
-        "classmap": [
-            "./Module.php"
-        ]
+            "DzUserModule": "src/"
+        }
     }
 }
