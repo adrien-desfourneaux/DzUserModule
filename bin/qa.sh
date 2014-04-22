@@ -7,12 +7,12 @@
 #  */
 
 # /*!
-#     Change de répertoire vers le répertoire du script
+#     Change de répertoire vers le répertoire du module
 #  */
-cdscriptpath () {
+cdmodulepath () {
     if [ -z $SCRIPTPATH ]; then
         SCRIPTPATH=$( cd "$(dirname "$0")" ; pwd -P )
-        cd $SCRIPTPATH
+        cd $SCRIPTPATH/..
     fi
 }
 
@@ -20,16 +20,16 @@ cdscriptpath () {
 #     Lance les tests de spécification
 #  */
 runspec () {
-    cdscriptpath
-    ../../vendor/bin/phpspec run
+    cdmodulepath
+    vendor/bin/phpspec run
 }
 
 # /*!
 #     Lance les tests d'acceptation
 #  */
 runcept () {
-    cdscriptpath
-    ../../vendor/bin/codecept run --steps
+    cdmodulepath
+    vendor/bin/codecept run --steps
 }
 
 # /*!
@@ -74,25 +74,23 @@ setphpcsfixers () {
 }
 
 # /*!
-#     Lance le code sniffer
-#     2 code sniffers sont utilisés : PHP_CodeSniffer et php-cs-fixer (PHP Coding Standards Fixer)
+#     Lance le code sniffer php-cs-fixer (PHP Coding Standards Fixer)
 #  */
 runcodesniffer () {
-    cdscriptpath
+    cdmodulepath
     setphpcsfixers
 
-    ../../vendor/bin/phpcs --standard="phpcs.xml" --ignore="/doc/" --extensions="php" .
-    ../../vendor/bin/php-cs-fixer fix . --dry-run --verbose --fixers=$fixers
+    vendor/bin/php-cs-fixer fix . --dry-run --verbose --fixers=$fixers
 }
 
 # /*!
 #     Lance le code fixer
 #  */
 runcodefixer () {
-    cdscriptpath
+    cdmodulepath
     setphpcsfixers
 
-    ../../vendor/bin/php-cs-fixer fix . --verbose --fixers=$fixers
+    vendor/bin/php-cs-fixer fix . --verbose --fixers=$fixers
 }
 
 # /*!
@@ -119,16 +117,16 @@ checktabindent () {
 #     Lance le mess detector
 #  */
 runmessdetector () {
-    cdscriptpath
-    ../../vendor/bin/phpmd . text phpmd.xml --exclude "doc,tests*Guy.php" --suffixes "php,phtml"
+    cdmodulepath
+    vendor/bin/phpmd . text phpmd.xml --exclude "doc,tests*Guy.php" --suffixes "php,phtml"
 }
 
 # /*!
 #     Lance le copy-paste detector
 #  */
 runcpdetector () {
-    cdscriptpath
-    ../../vendor/bin/phpcpd --progress .
+    cdmodulepath
+    vendor/bin/phpcpd --progress .
 }
 
 # /*!
@@ -137,12 +135,10 @@ runcpdetector () {
 #     dans le dossier /public de l'application
 #  */
 setenvironment () {
-    cdscriptpath
+    cdmodulepath
 
-    cp -f public/css/dzuser.css ../../public/css && printf "dzuser.css -> /public/css\n"
-    #cp -rf public/img/dzuser ../../public/img && printf "img/dzuser -> /public/img\n"
-
-    printf "\n"
+    cp -rvn public/module ../../public
+    cp -rvn public/vendor ../../public
 }
 
 # /*!
@@ -155,17 +151,15 @@ setenvironment () {
 #     fichier soit le même que celui du serveur web
 #  */
 setdevelopment () {
-    cdscriptpath
+    cdmodulepath
 
     setenvironment
 
-    cp -f public/dzuser.php ../../public && printf "dzuser.php -> /public\n"
-    cp -f public/dzuser.test.php ../../public && printf "dzuser.test.php -> /public\n"
+    cp -vf public/dzuser.php ../../public
+    cp -vf public/dzuser.test.php ../../public
 
-    printf "\n"
-
-    chmod 644 ../../public/dzuser.php && printf "chmod 644 dzuser.php\n"
-    chmod 644 ../../public/dzuser.test.php && printf "chmod 644 dzuser.test.php\n"
+    chmod -v 644 ../../public/dzuser.php
+    chmod -v 644 ../../public/dzuser.test.php
 }
 
 # /*!
@@ -173,12 +167,12 @@ setdevelopment () {
 #     du module du dossier /public de l'application
 #  */
 setproduction () {
-    cdscriptpath
+    cdmodulepath
 
     setenvironment
 
-    rm -f ../../public/dzuser.php && printf "Suppression de /public/dzuser.php\n"
-    rm -f ../../public/dzuser.test.php && printf "Suppression de /public/dzuser.test.php\n"
+    rm -vf ../../public/dzuser.php
+    rm -vf ../../public/dzuser.test.php
 }
 
 # /*!
@@ -186,27 +180,27 @@ setproduction () {
 #     Deprécié
 #  */
 genstats () {
-    cdscriptpath
+    cdmodulepath
     mkdir -p metrics
-    ../../vendor/bin/phploc --progress . > metrics/stats.txt
+    vendor/bin/phploc --progress . > metrics/stats.txt
 }
 
 # /*!
 #     Affiche les statistiques du module
 #  */
 showstats () {
-    cdscriptpath
+    cdmodulepath
     mkdir -p metrics
-    ../../vendor/bin/phploc --progress . > metrics/stats.txt
+    vendor/bin/phploc --progress . > metrics/stats.txt
 }
 
 # /*!
 #     Génère les métriques du module
 #  */
 gendepend () {
-    cdscriptpath
+    cdmodulepath
     mkdir -p metrics
-    ../../vendor/bin/pdepend --summary-xml="metrics/summary.xml" \
+    vendor/bin/pdepend --summary-xml="metrics/summary.xml" \
         --jdepend-chart="metrics/jdepend.svg" \
         --overview-pyramid="metrics/pyramid.svg" \
         .
@@ -216,38 +210,38 @@ gendepend () {
 #     Génére la documentation du module
 #  */
 gendoc () {
-    cdscriptpath
+    cdmodulepath
     mkdir -p doc
-    ../../vendor/bin/phpdoc.php run -d . -t doc
+    vendor/bin/phpdoc.php run -d . -t doc
 }
 
 # /*!
 #     Vérifie la documentation (docblocks) du module
 #  */
 checkdoc () {
-    cdscriptpath
+    cdmodulepath
 
     Category="(\<Config\>|\<Autoload\>|\<Source\>|\<Spec\>|\<Test\>)$"
     Package="\<DzUserModule(/.*|\>)"
     Author="Adrien Desfourneaux \(aka Dieze\) <dieze51@gmail\.com>$"
     License="\shttp://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2$"
-    Link="\<https://github.com/dieze/DzUserModule/blob/master/.+"
+    Link="\<https://github.com/dieze/DzUserModule$"
     exclude=".*tests.*Guy.php$"
 
-    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@category\s+${Category}" | awk '{print "Wrong or no category in "$1}'
-    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@package\s+${Package}" | awk '{print "Wrong or no package name in "$1}'
-    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@author\s+${Author}" | awk '{print "Wrong or no author in "$1}'
-    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@license\s+${License}" | awk '{print "Wrong or no license in "$1}'
-    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@link\s+${Link}" | awk '{print "Wrong or no link in "$1}'
+    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@category\s+${Category}" | awk '{print "Mauvaise catégorie : "$1}'
+    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@package\s+${Package}" | awk '{print "Mauvais nom de package : "$1}'
+    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@author\s+${Author}" | awk '{print "Mauvais auteur : "$1}'
+    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@license\s+${License}" | awk '{print "Mauvaise licence : "$1}'
+    find . \( -name "*.php" -o -name "*.phtml" \) -and -not -regex "$exclude" | xargs grep -E -sL "@link\s+${Link}" | awk '{print "Mauvais lien : "$1}'
 }
 
 # /*!
 #     Génère le classmap pour l'autoloader
 #  */
 genclassmap () {
-    cdscriptpath
+    cdmodulepath
 
-    ../../vendor/bin/classmap_generator.php .
+    ../../vendor/bin/classmap_generator.php --library src/DzUserModule --output ./autoload_classmap.php --overwrite --sort .
 }
 
 # /*!
@@ -345,6 +339,7 @@ if [ $# -eq 0 ]; then help
 # help
 elif [ $1 = 'help' ]; then
     if [ $# -eq 1 ]; then help
+    elif [ $2 = 'env' ]; then helpenv
     elif [ $2 = 'test' ]; then helptest
     elif [ $2 = 'code' ]; then helpcode
     elif [ $2 = 'doc' ]; then helpdoc
@@ -381,8 +376,6 @@ elif [ $1 = 'code' ]; then
         runmessdetector
         runcpdetector
     elif [ $2 = 'fix' ]; then runcodefixer
-    elif [ $2 = 'dev' ]; then setdevelopment
-    elif [ $2 = 'prod' ]; then setproduction
     elif [ $2 = 'stats' ]; then showstats
     elif [ $2 = 'depend' ]; then gendepend
     else helpcode
